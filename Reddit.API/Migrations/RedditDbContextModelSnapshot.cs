@@ -110,6 +110,34 @@ namespace Reddit.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Reddit.Domain.Entities.Post", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("Reddit.Domain.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -190,6 +218,9 @@ namespace Reddit.API.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -204,9 +235,11 @@ namespace Reddit.API.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
 
-                    b.UseTptMappingStrategy();
+                    b.HasDiscriminator<int>("Type").HasValue(0);
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Reddit.Domain.Entities.UserRole", b =>
@@ -241,7 +274,13 @@ namespace Reddit.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("AspNetUsers", t =>
+                        {
+                            t.Property("Name")
+                                .HasColumnName("Member_Name");
+                        });
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Reddit.Domain.Entities.Staff", b =>
@@ -251,7 +290,7 @@ namespace Reddit.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Staffs", (string)null);
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -290,6 +329,17 @@ namespace Reddit.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Reddit.Domain.Entities.Post", b =>
+                {
+                    b.HasOne("Reddit.Domain.Entities.Member", "Member")
+                        .WithMany("Posts")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
             modelBuilder.Entity("Reddit.Domain.Entities.UserRole", b =>
                 {
                     b.HasOne("Reddit.Domain.Entities.Role", null)
@@ -317,24 +367,6 @@ namespace Reddit.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Reddit.Domain.Entities.Member", b =>
-                {
-                    b.HasOne("Reddit.Domain.Entities.User", null)
-                        .WithOne()
-                        .HasForeignKey("Reddit.Domain.Entities.Member", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Reddit.Domain.Entities.Staff", b =>
-                {
-                    b.HasOne("Reddit.Domain.Entities.User", null)
-                        .WithOne()
-                        .HasForeignKey("Reddit.Domain.Entities.Staff", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Reddit.Domain.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -343,6 +375,11 @@ namespace Reddit.API.Migrations
             modelBuilder.Entity("Reddit.Domain.Entities.User", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Reddit.Domain.Entities.Member", b =>
+                {
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

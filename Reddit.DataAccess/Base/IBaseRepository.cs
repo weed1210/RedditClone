@@ -1,5 +1,5 @@
 ﻿namespace Reddit.DataAccess.Base;
-internal interface IBaseRepository<T>
+public interface IBaseRepository<T>
 {
     IQueryable<T> Get();
     void Create(T entity);

@@ -9,7 +9,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddAutoMapper();
 builder.Services.ConfigIdentityService();
-builder.Services.AddBussinessService(builder.Configuration);
+builder.Services.AddBussinessService();
 builder.Services.ConfigureSwagger();
 
 #pragma warning disable CS8604 // Possible null reference argument.

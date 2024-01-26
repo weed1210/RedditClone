@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Reddit.Domain.Entities;
+using Reddit.Domain.Enums;
 using System.Reflection;
 
 namespace Reddit.Domain.Database;
@@ -9,7 +10,6 @@ public class RedditDbContext : IdentityDbContext<User, Role, Guid, IdentityUserC
 {
     public RedditDbContext(DbContextOptions options) : base(options)
     {
-
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -20,9 +20,17 @@ public class RedditDbContext : IdentityDbContext<User, Role, Guid, IdentityUserC
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<User>(entity => entity.ToTable("Users"));
-        builder.Entity<Member>(entity => entity.ToTable("Members"));
-        builder.Entity<Staff>(entity => entity.ToTable("Staffs"));
+        builder.Entity<User>()
+            .HasDiscriminator(x => x.Type)
+            .HasValue(UserType.Base);
+
+        builder.Entity<Member>()
+            .HasDiscriminator(x => x.Type)
+            .HasValue(UserType.Member);
+
+        builder.Entity<Staff>()
+            .HasDiscriminator(x => x.Type)
+            .HasValue(UserType.Staff);
 
         builder.FilterSoftDeleted();
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reddit.DataAccess", "Reddit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reddit.Service", "Reddit.Service\Reddit.Service.csproj", "{4F2B9F6F-5FB5-47DC-A4D6-D33A0F3F82EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reddit.Contract", "Reddit.Contract\Reddit.Contract.csproj", "{0368FD22-1CBB-4F36-A93F-0CA8BAABD235}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reddit.Contract", "Reddit.Contract\Reddit.Contract.csproj", "{0368FD22-1CBB-4F36-A93F-0CA8BAABD235}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

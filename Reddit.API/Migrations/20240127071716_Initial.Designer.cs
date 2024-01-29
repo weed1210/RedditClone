@@ -12,7 +12,7 @@ using Reddit.Domain.Database;
 namespace Reddit.API.Migrations
 {
     [DbContext(typeof(RedditDbContext))]
-    [Migration("20240126174055_Initial")]
+    [Migration("20240127071716_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -167,6 +167,23 @@ namespace Reddit.API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"),
+                            Name = "Member"
+                        },
+                        new
+                        {
+                            Id = new Guid("4716f673-cef5-4edd-b67d-9c71599b9fab"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("1abb6e28-793d-460f-8a24-745998356da8"),
+                            Name = "Mod"
+                        });
                 });
 
             modelBuilder.Entity("Reddit.Domain.Entities.User", b =>
@@ -243,6 +260,26 @@ namespace Reddit.API.Migrations
                     b.HasDiscriminator<int>("Type").HasValue(0);
 
                     b.UseTphMappingStrategy();
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4875d923-266f-45f9-863a-0674fc8d157a",
+                            Email = "super@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "super@gmail.com",
+                            NormalizedUserName = "super",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJAlQuDVlMQMNHoa3rSq/DfufIFxS598rJzZNmHBGxUgBVYjQqFo3D18cAPKaWayTQ==",
+                            PhoneNumber = "0985097145",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            Type = 0,
+                            UserName = "super"
+                        });
                 });
 
             modelBuilder.Entity("Reddit.Domain.Entities.UserRole", b =>
@@ -268,6 +305,23 @@ namespace Reddit.API.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"),
+                            RoleId = new Guid("57ffb575-7c79-4133-8433-aebbcd71f824")
+                        },
+                        new
+                        {
+                            UserId = new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"),
+                            RoleId = new Guid("4716f673-cef5-4edd-b67d-9c71599b9fab")
+                        },
+                        new
+                        {
+                            UserId = new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"),
+                            RoleId = new Guid("1abb6e28-793d-460f-8a24-745998356da8")
+                        });
                 });
 
             modelBuilder.Entity("Reddit.Domain.Entities.Member", b =>

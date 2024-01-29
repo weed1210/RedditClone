@@ -3,10 +3,12 @@
 namespace Reddit.DataAccess.UnitOfWork;
 public interface IUnitOfWork
 {
-    IMemberRepository Member { get; }
-    IPostRepository Post { get; }
-    IStaffRepository Staff { get; }
-    IUserRepository User { get; }
+    IMemberRepository Members { get; }
+    IPostRepository Posts { get; }
+    IStaffRepository Staffs { get; }
+    IUserRepository Users { get; }
+    IUserRoleRepository UserRoles { get; }
+    IRoleRepository Roles { get; }
 
     Task SaveAsync();
     Task StartTransactionAsync();

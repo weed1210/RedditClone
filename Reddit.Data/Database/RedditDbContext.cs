@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EntityFramework.Exceptions.SqlServer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Reddit.Domain.Entities;
 using Reddit.Domain.Enums;
+using Reddit.Domain.Extensions;
 using System.Reflection;
 
 namespace Reddit.Domain.Database;
@@ -13,8 +15,10 @@ public class RedditDbContext : IdentityDbContext<User, Role, Guid, IdentityUserC
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder
-            .AddInterceptors(new SoftDeleteInterceptor());
+    {
+        optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
+        optionsBuilder.UseExceptionProcessor();
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -32,6 +36,7 @@ public class RedditDbContext : IdentityDbContext<User, Role, Guid, IdentityUserC
             .HasDiscriminator(x => x.Type)
             .HasValue(UserType.Staff);
 
+        builder.SeedUserRole();
         builder.FilterSoftDeleted();
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

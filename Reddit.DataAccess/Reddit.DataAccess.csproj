@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Rick.Docs.Samples.RouteInfo" Version="1.0.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Reddit.Contract\Reddit.Contract.csproj" />
     <ProjectReference Include="..\Reddit.Data\Reddit.Domain.csproj" />
   </ItemGroup>
 

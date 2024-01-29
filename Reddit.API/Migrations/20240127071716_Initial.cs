@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Reddit.API.Migrations
 {
     /// <inheritdoc />
@@ -191,6 +193,31 @@ namespace Reddit.API.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { new Guid("1abb6e28-793d-460f-8a24-745998356da8"), null, "Mod", null },
+                    { new Guid("4716f673-cef5-4edd-b67d-9c71599b9fab"), null, "Admin", null },
+                    { new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"), null, "Member", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DeletedAt", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "Type", "UserName" },
+                values: new object[] { new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"), 0, "4875d923-266f-45f9-863a-0674fc8d157a", null, "super@gmail.com", true, false, null, "super@gmail.com", "super", "AQAAAAIAAYagAAAAEJAlQuDVlMQMNHoa3rSq/DfufIFxS598rJzZNmHBGxUgBVYjQqFo3D18cAPKaWayTQ==", "0985097145", false, "", false, 0, "super" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId", "RoleId1", "UserId1" },
+                values: new object[,]
+                {
+                    { new Guid("1abb6e28-793d-460f-8a24-745998356da8"), new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"), null, null },
+                    { new Guid("4716f673-cef5-4edd-b67d-9c71599b9fab"), new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"), null, null },
+                    { new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"), new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"), null, null }
                 });
 
             migrationBuilder.CreateIndex(

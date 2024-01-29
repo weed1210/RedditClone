@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Reddit.Contract\Reddit.Contract.csproj" />
     <ProjectReference Include="..\Reddit.DataAccess\Reddit.DataAccess.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,7 @@ using Microsoft.Extensions.FileProviders;
 using Reddit.API.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.ConfigureLogging();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -35,12 +36,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
@@ -57,7 +52,11 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.MapControllers();
 
-app.MapControllers();
+app.MapGet("/Test", async (ILogger<Program> logger, HttpResponse response) =>
+{
+    logger.LogInformation("Testing logging in Program.cs");
+    await response.WriteAsync("Testing");
+});
 
 app.UseForwardedHeaders();
 

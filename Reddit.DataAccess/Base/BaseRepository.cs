@@ -10,11 +10,11 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
         DbContext = dbContext;
     }
 
-    public IQueryable<T> Get() => DbContext.Set<T>().AsQueryable();
+    public virtual IQueryable<T> Get() => DbContext.Set<T>().AsQueryable();
 
-    public void Create(T entity) => DbContext.Set<T>().Add(entity);
+    public virtual void Create(T entity) => DbContext.Set<T>().Add(entity);
 
-    public void Update(T entity) => DbContext.Set<T>().Update(entity);
+    public virtual void Update(T entity) => DbContext.Set<T>().Update(entity);
 
-    public void Delete(T entity) => DbContext.Set<T>().Remove(entity);
+    public virtual void Delete(T entity) => DbContext.Set<T>().Remove(entity);
 }

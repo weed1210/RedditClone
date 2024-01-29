@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
+using Reddit.DataAccess.UnitOfWork;
 using Reddit.Domain.Database;
 using Reddit.Domain.Entities;
 using Reddit.Service.Core;
@@ -40,6 +41,10 @@ public static class StartupExtensions
 
     public static void AddBussinessService(this IServiceCollection services)
     {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IMemberService, MemberService>();
+        services.AddScoped<IPostService, PostService>();
+        services.AddScoped<IStaffService, StaffService>();
         services.AddScoped<IUserService, UserService>();
     }
 
@@ -54,7 +59,6 @@ public static class StartupExtensions
             x.Password.RequireNonAlphanumeric = false;
             x.Password.RequireUppercase = false;
             x.Password.RequireLowercase = false;
-
             x.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             x.User.RequireUniqueEmail = true;
             x.SignIn.RequireConfirmedAccount = false;
@@ -142,6 +146,7 @@ public static class StartupExtensions
                 };
             });
     }
+
     public static void ConfigureSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
@@ -182,5 +187,12 @@ public static class StartupExtensions
         services.AddControllersWithViews().AddNewtonsoftJson(options =>
         options.SerializerSettings.Converters.Add(new StringEnumConverter()));
         services.AddSwaggerGenNewtonsoftSupport();
+    }
+
+    public static void ConfigureLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();
+        builder.Logging.AddConsole();
     }
 }

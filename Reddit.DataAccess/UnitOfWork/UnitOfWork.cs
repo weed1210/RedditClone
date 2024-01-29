@@ -8,10 +8,13 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly RedditDbContext _dbContext;
     private IDbContextTransaction? _transaction;
+
     private IMemberRepository? _member;
     private IPostRepository? _post;
+    private IRoleRepository? _role;
     private IStaffRepository? _staff;
     private IUserRepository? _user;
+    private IUserRoleRepository? _userRole;
 
     public UnitOfWork(RedditDbContext dbContext)
     {
@@ -48,7 +51,7 @@ public class UnitOfWork : IUnitOfWork
         await _transaction.RollbackAsync();
     }
 
-    public IMemberRepository Member
+    public IMemberRepository Members
     {
         get
         {
@@ -56,7 +59,7 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IPostRepository Post
+    public IPostRepository Posts
     {
         get
         {
@@ -64,7 +67,15 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IStaffRepository Staff
+    public IRoleRepository Roles
+    {
+        get
+        {
+            return _role ??= new RoleRepository(_dbContext);
+        }
+    }
+
+    public IStaffRepository Staffs
     {
         get
         {
@@ -72,11 +83,19 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public IUserRepository User
+    public IUserRepository Users
     {
         get
         {
             return _user ??= new UserRepository(_dbContext);
+        }
+    }
+
+    public IUserRoleRepository UserRoles
+    {
+        get
+        {
+            return _userRole ??= new UserRoleRepository(_dbContext);
         }
     }
 }

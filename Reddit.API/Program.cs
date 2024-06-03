@@ -45,11 +45,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseStaticFiles(new StaticFileOptions
-//{
-//    FileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory() + "/wwwroot")
-//});
-
 app.MapControllers();
 
 app.MapGet("/Test", async (ILogger<Program> logger, HttpResponse response) =>

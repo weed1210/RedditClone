@@ -2,20 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Reddit.DataAccess.Common.Paging;
 using Reddit.Domain.Enums.Paging;
-using Reddit.Service.Core.Interfaces;
+using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]
-public class PostsController : ControllerBase
+public class PostsController(IPostService postService) : ControllerBase
 {
-    private readonly IPostService _postService;
-
-    public PostsController(IPostService postService)
-    {
-        _postService = postService;
-    }
+    private readonly IPostService _postService = postService;
 
     [HttpGet]
     public ActionResult Get([FromQuery] PagingParam<BaseSortCriteria> pagingParam)

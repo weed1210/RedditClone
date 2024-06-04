@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Reddit.DataAccess.Repositories;
-using Reddit.DataAccess.Repositories.Interfaces;
+using Reddit.DataAccess.Abstractions;
+using Reddit.DataAccess.Abstractions.Interfaces;
 using Reddit.Domain.Database;
 
 namespace Reddit.DataAccess.UnitOfWork;

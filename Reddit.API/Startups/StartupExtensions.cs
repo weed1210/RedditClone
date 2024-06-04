@@ -9,7 +9,7 @@ using Reddit.DataAccess.UnitOfWork;
 using Reddit.Domain.Database;
 using Reddit.Domain.Entities;
 using Reddit.Service.Core;
-using Reddit.Service.Core.Interfaces;
+using Reddit.Service.Core.Abstractions;
 using Reddit.Service.Mapping;
 using System.Reflection;
 using System.Text;
@@ -21,9 +21,10 @@ public static class StartupExtensions
 {
     public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         services.AddDbContext<RedditDbContext>(opt =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+            opt.UseNpgsql(configuration.GetConnectionString("Supabase"),
                 b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name));
         });
     }

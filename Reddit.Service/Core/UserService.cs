@@ -11,7 +11,7 @@ using Reddit.Domain.Constant.Logging;
 using Reddit.Domain.Entities;
 using Reddit.Domain.Enums;
 using Reddit.Domain.Enums.Logging;
-using Reddit.Service.Core.Interfaces;
+using Reddit.Service.Core.Abstractions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

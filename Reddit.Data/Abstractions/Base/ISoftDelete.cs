@@ -1,4 +1,4 @@
-﻿namespace Reddit.Domain.Entities.Base;
+﻿namespace Reddit.Domain.Entities.Abstractions;
 public interface ISoftDelete
 {
     public DateTimeOffset? DeletedAt { get; set; }

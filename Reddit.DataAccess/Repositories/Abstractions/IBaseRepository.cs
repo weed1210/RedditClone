@@ -1,4 +1,4 @@
-﻿namespace Reddit.DataAccess.Base;
+﻿namespace Reddit.DataAccess.Repositories.Abstraction;
 public interface IBaseRepository<T>
 {
     IQueryable<T> Get();

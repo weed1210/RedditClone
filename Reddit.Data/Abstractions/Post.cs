@@ -1,4 +1,4 @@
-﻿using Reddit.Domain.Entities.Base;
+﻿using Reddit.Domain.Entities.Abstractions;
 
 namespace Reddit.Domain.Entities;
 public class Post : BaseEntity, ISoftDelete

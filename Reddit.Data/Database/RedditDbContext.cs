@@ -1,5 +1,4 @@
-﻿using EntityFramework.Exceptions.SqlServer;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Reddit.Domain.Entities;
@@ -17,7 +16,6 @@ public class RedditDbContext : IdentityDbContext<User, Role, Guid, IdentityUserC
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
-        optionsBuilder.UseExceptionProcessor();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

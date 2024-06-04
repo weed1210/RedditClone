@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Reddit.Domain.Entities.Base;
+using Reddit.Domain.Entities.Abstractions;
 using Reddit.Domain.Enums;
 
 namespace Reddit.Domain.Entities;

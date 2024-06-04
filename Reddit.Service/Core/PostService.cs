@@ -9,7 +9,7 @@ using Reddit.DataAccess.UnitOfWork;
 using Reddit.Domain.Constant.Logging;
 using Reddit.Domain.Enums.Logging;
 using Reddit.Domain.Enums.Paging;
-using Reddit.Service.Core.Interfaces;
+using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.Service.Core;
 public class PostService : IPostService

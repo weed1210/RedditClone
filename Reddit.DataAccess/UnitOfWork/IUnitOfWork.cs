@@ -1,4 +1,4 @@
-﻿using Reddit.DataAccess.Repositories.Interfaces;
+﻿using Reddit.DataAccess.Abstractions.Interfaces;
 
 namespace Reddit.DataAccess.UnitOfWork;
 public interface IUnitOfWork

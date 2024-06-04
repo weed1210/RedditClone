@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Reddit.Domain.Entities.Base;
+using Reddit.Domain.Entities.Abstractions;
 
 namespace Reddit.Domain.Database;
 public class SoftDeleteInterceptor : SaveChangesInterceptor

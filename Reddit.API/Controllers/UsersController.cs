@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reddit.Contract.User;
-using Reddit.Service.Core.Interfaces;
+using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.API.Controllers;
 [Route("api/[controller]")]

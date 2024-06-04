@@ -1,6 +1,7 @@
-﻿using Reddit.Domain.Database;
+﻿using Reddit.DataAccess.Repositories.Abstraction;
+using Reddit.Domain.Database;
 
-namespace Reddit.DataAccess.Base;
+namespace Reddit.DataAccess.Repositories;
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     protected RedditDbContext DbContext { get; set; }

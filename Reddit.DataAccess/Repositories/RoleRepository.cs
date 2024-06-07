@@ -1,12 +1,9 @@
 ﻿using Reddit.DataAccess.Abstractions.Interfaces;
+using Reddit.DataAccess.Repositories;
 using Reddit.Domain.Database;
 using Reddit.Domain.Entities;
-using Reddit.DataAccess.Repositories;
 
 namespace Reddit.DataAccess.Abstractions;
-public class RoleRepository : BaseRepository<Role>, IRoleRepository
+public class RoleRepository(RedditDbContext dbContext) : BaseRepository<Role>(dbContext), IRoleRepository
 {
-    public RoleRepository(RedditDbContext dbContext) : base(dbContext)
-    {
-    }
 }

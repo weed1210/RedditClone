@@ -1,32 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Reddit.Contract.Member;
-public class MemberRegisterModel
+public class MemberRegisterModel(string password, string email, string name, string phoneNumber)
 {
     [Required]
-    public string UserName { get; set; }
-
-    [Required]
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$", ErrorMessage = "Password must be atleast 8 character and have lowercase, uppercase and special character")]
-    public string Password { get; set; }
+    public string Password { get; set; } = password;
 
     [Required]
     [EmailAddress]
-    public string Email { get; set; }
+    public string Email { get; set; } = email;
 
     [Required]
-    public string Name { get; set; }
+    public string Name { get; set; } = name;
 
     [Required]
     [Phone]
-    public string PhoneNumber { get; set; }
-
-    public MemberRegisterModel(string userName, string password, string email, string name, string phoneNumber)
-    {
-        UserName = userName;
-        Password = password;
-        Email = email;
-        Name = name;
-        PhoneNumber = phoneNumber;
-    }
+    public string PhoneNumber { get; set; } = phoneNumber;
 }

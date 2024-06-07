@@ -12,18 +12,14 @@ using Reddit.Domain.Enums.Paging;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.Service.Core;
-public class PostService : IPostService
+public class PostService(
+    IUnitOfWork repo, 
+    IMapper mapper, 
+    ILogger<PostService> logger) : IPostService
 {
-    private readonly IUnitOfWork _repo;
-    private readonly IMapper _mapper;
-    private readonly ILogger<PostService> _logger;
-
-    public PostService(IUnitOfWork repo, IMapper mapper, ILogger<PostService> logger)
-    {
-        _repo = repo;
-        _mapper = mapper;
-        _logger = logger;
-    }
+    private readonly IUnitOfWork _repo = repo;
+    private readonly IMapper _mapper = mapper;
+    private readonly ILogger<PostService> _logger = logger;
 
     public ResultModel Get(PagingParam<BaseSortCriteria> pagingParam)
     {

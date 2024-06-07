@@ -8,14 +8,14 @@ public static class SeederExtension
     public static void SeedUserRole(this ModelBuilder builder)
     {
         var hasher = new PasswordHasher<User>();
-        List<Guid> seedGuids = new()
-        {
+        List<Guid> seedGuids =
+        [
             new Guid("57ffb575-7c79-4133-8433-aebbcd71f824"),
             new Guid("4716f673-cef5-4edd-b67d-9c71599b9fab"),
             new Guid("1abb6e28-793d-460f-8a24-745998356da8"),
             new Guid("2e3566a9-02b1-4ec4-a2d4-b3bb3c4f2b45"),
             new Guid("01fc684c-d9d0-4fcc-b0a7-56fea6945928")
-        };
+        ];
 
         builder.Entity<Role>().HasData(new Role
         {

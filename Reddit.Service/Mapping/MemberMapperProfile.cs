@@ -10,6 +10,6 @@ public class MemberMapperProfile : Profile
         CreateMap<Member, MemberModel>();
         CreateMap<MemberRegisterModel, Member>()
             .ForMember(dest => dest.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToLower()))
-            .ForMember(dest => dest.NormalizedUserName, opt => opt.MapFrom(src => src.UserName.ToLower()));
+            .ForMember(dest => dest.NormalizedUserName, opt => opt.MapFrom(src => src.Email.ToLower()));
     }
 }

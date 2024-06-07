@@ -2,14 +2,9 @@
 using Reddit.Domain.Database;
 
 namespace Reddit.DataAccess.Repositories;
-public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
+public abstract class BaseRepository<T>(RedditDbContext dbContext) : IBaseRepository<T> where T : class
 {
-    protected RedditDbContext DbContext { get; set; }
-
-    protected BaseRepository(RedditDbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
+    protected RedditDbContext DbContext { get; set; } = dbContext;
 
     public virtual IQueryable<T> Get() => DbContext.Set<T>().AsQueryable();
 

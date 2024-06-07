@@ -17,20 +17,16 @@ using System.Security.Claims;
 using System.Text;
 
 namespace Reddit.Service.Core;
-public class UserService : IUserService
+public class UserService(
+    IUnitOfWork repo, 
+    IConfiguration config, 
+    SignInManager<User> signInManager, 
+    ILogger<UserService> logger) : IUserService
 {
-    private readonly IUnitOfWork _repo;
-    private readonly IConfiguration _config;
-    private readonly SignInManager<User> _signInManager;
-    private readonly ILogger<UserService> _logger;
-
-    public UserService(IUnitOfWork repo, IConfiguration config, SignInManager<User> signInManager, ILogger<UserService> logger)
-    {
-        _repo = repo;
-        _config = config;
-        _signInManager = signInManager;
-        _logger = logger;
-    }
+    private readonly IUnitOfWork _repo = repo;
+    private readonly IConfiguration _config = config;
+    private readonly SignInManager<User> _signInManager = signInManager;
+    private readonly ILogger<UserService> _logger = logger;
 
     public async Task<ResultModel> Login(UserLoginModel model)
     {
@@ -71,7 +67,7 @@ public class UserService : IUserService
 
     private Token GetAccessToken(User user, List<string> roles)
     {
-        List<Claim> claims = new();
+        List<Claim> claims = [];
         switch (user.Type)
         {
             case UserType.Member:
@@ -109,9 +105,9 @@ public class UserService : IUserService
     {
         //IdentityOptions _options = new();
         var claims = new List<Claim> {
-            new Claim("UserId", user.Id.ToString()),
-            new Claim("Email", user.Email!),
-            new Claim("UserName", user.UserName ?? string.Empty)
+            new("UserId", user.Id.ToString()),
+            new("Email", user.Email!),
+            new("UserName", user.UserName ?? string.Empty)
         };
 
         foreach (var role in roles)
@@ -127,9 +123,9 @@ public class UserService : IUserService
     {
         //IdentityOptions _options = new();
         var claims = new List<Claim> {
-            new Claim("UserId", user.Id.ToString()),
-            new Claim("Email", user.Email!),
-            new Claim("UserName", user.UserName ?? string.Empty)
+            new("UserId", user.Id.ToString()),
+            new("Email", user.Email!),
+            new("UserName", user.UserName ?? string.Empty)
         };
 
         foreach (var role in roles)

@@ -7,14 +7,9 @@ namespace Reddit.API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]
-public class MembersController : ControllerBase
+public class MembersController(IMemberService memberService) : ControllerBase
 {
-    private readonly IMemberService _memberService;
-
-    public MembersController(IMemberService memberService)
-    {
-        _memberService = memberService;
-    }
+    private readonly IMemberService _memberService = memberService;
 
     [HttpPost("Register")]
     [AllowAnonymous]

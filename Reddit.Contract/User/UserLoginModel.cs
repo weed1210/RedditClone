@@ -1,17 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Reddit.Contract.User;
-public class UserLoginModel
+public class UserLoginModel(string userName, string password)
 {
     [Required]
-    public string UserName { get; set; }
+    public string UserName { get; set; } = userName;
 
     [Required]
-    public string Password { get; set; }
-
-    public UserLoginModel(string userName, string password)
-    {
-        UserName = userName;
-        Password = password;
-    }
+    public string Password { get; set; } = password;
 }

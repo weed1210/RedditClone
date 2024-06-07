@@ -12,20 +12,16 @@ using Reddit.Domain.Enums.Logging;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.Service.Core;
-public class MemberService : IMemberService
+public class MemberService(
+    IUnitOfWork repo, 
+    IMapper mapper, 
+    UserManager<User> userManager, 
+    ILogger<MemberService> logger) : IMemberService
 {
-    private readonly IUnitOfWork _repo;
-    private readonly IMapper _mapper;
-    private readonly UserManager<User> _userManager;
-    private readonly ILogger<MemberService> _logger;
-
-    public MemberService(IUnitOfWork repo, IMapper mapper, UserManager<User> userManager, ILogger<MemberService> logger)
-    {
-        _repo = repo;
-        _mapper = mapper;
-        _userManager = userManager;
-        _logger = logger;
-    }
+    private readonly IUnitOfWork _repo = repo;
+    private readonly IMapper _mapper = mapper;
+    private readonly UserManager<User> _userManager = userManager;
+    private readonly ILogger<MemberService> _logger = logger;
 
     public async Task<ResultModel> Register(MemberRegisterModel model)
     {

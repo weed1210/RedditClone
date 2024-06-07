@@ -21,7 +21,7 @@ public static class SortingHelper
                 OrderCriteria.ASC => "OrderBy",
                 _ => "OrderByDescending",
             };
-            Type[] types = new Type[] { source.ElementType, exp.Body.Type };
+            Type[] types = [source.ElementType, exp.Body.Type];
             var mce = Expression.Call(typeof(Queryable), method, types, source.Expression, exp);
             return source.Provider.CreateQuery<TObject>(mce);
         }

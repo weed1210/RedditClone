@@ -22,7 +22,7 @@ builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
-        .WithOrigins("http://localhost:3000");
+        .WithOrigins("http://localhost:3000", "http://localhost:4200");
 }));
 
 builder.Services.AddSignalR();

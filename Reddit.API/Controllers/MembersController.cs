@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reddit.Contract.Member;
+using Reddit.Service.Core;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.API.Controllers;

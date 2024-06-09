@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Reddit.Contract.Common;
 using Reddit.Contract.Common.Auth;
 using Reddit.Contract.User;
-using Reddit.DataAccess.Common.Utilities;
 using Reddit.DataAccess.UnitOfWork;
-using Reddit.Domain.Constant.Logging;
 using Reddit.Domain.Entities;
 using Reddit.Domain.Enums;
-using Reddit.Domain.Enums.Logging;
 using Reddit.Service.Core.Abstractions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,23 +13,18 @@ using System.Text;
 
 namespace Reddit.Service.Core;
 public class UserService(
-    IUnitOfWork repo, 
-    IConfiguration config, 
-    SignInManager<User> signInManager, 
-    ILogger<UserService> logger) : IUserService
+    IUnitOfWork repo,
+    IConfiguration config,
+    SignInManager<User> signInManager) : IUserService
 {
     private readonly IUnitOfWork _repo = repo;
     private readonly IConfiguration _config = config;
     private readonly SignInManager<User> _signInManager = signInManager;
-    private readonly ILogger<UserService> _logger = logger;
 
-    public async Task<ResultModel> Login(UserLoginModel model)
+    public async Task<TokenResponse> LoginAsync(UserLoginRequest model)
     {
-        var result = new ResultModel();
-
         try
         {
-            _logger.LogWarning(LogEvent.LOGIN, LogTemplate.LOGIN, model.UserName, model.Password);
             var user = _repo.Users.Get().First(x => x.UserName == model.UserName);
 
             var check = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
@@ -52,20 +42,16 @@ public class UserService(
                     var role = _repo.Roles.Get().FirstOrDefault(x => x.Id == userRole.RoleId);
                     if (role != null) roles.Add(role.Name!);
                 }
-                result.Data = GetAccessToken(user, roles);
+                return GetAccessToken(user, roles);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            var errorMessage = HelperFunction.GetErrorMessage(e);
-            _logger.LogError(LogEvent.ERROR, e, LogTemplate.ERROR, errorMessage);
-            result.ErrorMessage = "Username or password is not valid";
+            throw new Exception("Username or password is not valid"); ;
         }
-
-        return result;
     }
 
-    private Token GetAccessToken(User user, List<string> roles)
+    private TokenResponse GetAccessToken(User user, List<string> roles)
     {
         List<Claim> claims = [];
         switch (user.Type)
@@ -89,7 +75,7 @@ public class UserService(
 
         var serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-        return new Token
+        return new TokenResponse
         {
             Access_token = serializedToken,
             Token_type = "Bearer",

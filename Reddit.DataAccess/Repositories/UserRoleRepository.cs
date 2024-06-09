@@ -4,9 +4,6 @@ using Reddit.Domain.Database;
 using Reddit.Domain.Entities;
 
 namespace Reddit.DataAccess.Abstractions;
-public class UserRoleRepository : BaseRepository<UserRole>, IUserRoleRepository
+public class UserRoleRepository(RedditDbContext dbContext) : BaseRepository<UserRole>(dbContext), IUserRoleRepository
 {
-    public UserRoleRepository(RedditDbContext dbContext) : base(dbContext)
-    {
-    }
 }

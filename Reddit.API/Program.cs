@@ -1,4 +1,4 @@
-using Reddit.API.Startup;
+using Reddit.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureLogging();
@@ -28,30 +28,14 @@ builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
 builder.Services.AddSignalR();
 
 var app = builder.Build();
-
-//if (app.Environment.IsDevelopment())
-//{
 app.UseSwagger();
 app.UseSwaggerUI();
-//}
-
 app.UseHttpsRedirection();
-
 app.UseCors("CorsPolicy");
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
-app.MapGet("/Test", async (ILogger<Program> logger, HttpResponse response) =>
-{
-    logger.LogInformation("Testing logging in Program.cs");
-    await response.WriteAsync("Testing");
-});
-
+app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<StartupBase>>());
 app.UseForwardedHeaders();
-
 app.Run();

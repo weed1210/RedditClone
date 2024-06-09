@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Reddit.API.Controllers.Abstractions;
 using Reddit.DataAccess.Common.Paging;
 using Reddit.Domain.Enums.Paging;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.API.Controllers;
-[Route("api/[controller]")]
-[ApiController]
-[Authorize(AuthenticationSchemes = "Bearer")]
-public class PostsController(IPostService postService) : ControllerBase
+public class PostsController(IPostService postService) : BaseApiController
 {
     private readonly IPostService _postService = postService;
 
@@ -16,7 +13,6 @@ public class PostsController(IPostService postService) : ControllerBase
     public ActionResult Get([FromQuery] PagingParam<BaseSortCriteria> pagingParam)
     {
         var result = _postService.Get(pagingParam);
-        if (result.Succeed) return Ok(result.Data);
-        return BadRequest(result.ErrorMessage);
+        return Ok(result);
     }
 }

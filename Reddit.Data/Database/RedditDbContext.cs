@@ -5,6 +5,7 @@ using Reddit.Domain.Entities;
 using Reddit.Domain.Enums;
 using Reddit.Domain.Extensions;
 using System.Reflection;
+using Task = Reddit.Domain.Entities.Task;
 
 namespace Reddit.Domain.Database;
 public class RedditDbContext(DbContextOptions options) : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
@@ -41,4 +42,5 @@ public class RedditDbContext(DbContextOptions options) : IdentityDbContext<User,
     public DbSet<Member> Members { get; set; }
     public DbSet<Staff> Staffs { get; set; }
     public DbSet<Post> Posts { get; set; }
+    public DbSet<Task> Tasks { get; set; }
 }

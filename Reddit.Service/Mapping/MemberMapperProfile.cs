@@ -7,8 +7,8 @@ public class MemberMapperProfile : Profile
 {
     public MemberMapperProfile()
     {
-        CreateMap<Member, MemberModel>();
-        CreateMap<MemberRegisterModel, Member>()
+        CreateMap<Member, MemberResponse>();
+        CreateMap<MemberRegisterRequest, Member>()
             .ForMember(dest => dest.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToLower()))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email.ToLower()))
             .ForMember(dest => dest.NormalizedUserName, opt => opt.MapFrom(src => src.Email.ToLower()));

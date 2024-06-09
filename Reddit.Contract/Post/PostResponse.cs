@@ -1,5 +1,5 @@
 ﻿namespace Reddit.Contract.Post;
-public class PostModel
+public class PostResponse
 {
     public Guid Id { get; set; }
     public DateTime DateCreated { get; set; }

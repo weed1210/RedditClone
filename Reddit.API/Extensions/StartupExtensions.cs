@@ -14,8 +14,9 @@ using Reddit.Service.Mapping;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using Task = System.Threading.Tasks.Task;
 
-namespace Reddit.API.Startup;
+namespace Reddit.API.Extensions;
 
 public static class StartupExtensions
 {
@@ -35,6 +36,7 @@ public static class StartupExtensions
         {
             mc.AddProfile(new MemberMapperProfile());
             mc.AddProfile(new StaffMapperProfile());
+            mc.AddProfile(new TaskMapperProfile());
         });
         IMapper mapper = mappingConfig.CreateMapper();
         services.AddSingleton(mapper);
@@ -47,11 +49,13 @@ public static class StartupExtensions
         services.AddScoped<IPostService, PostService>();
         services.AddScoped<IStaffService, StaffService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ITaskService, TaskService>();
     }
 
     public static void ConfigIdentityService(this IServiceCollection services)
     {
-        var idenityOptions = (IdentityOptions x) =>
+
+        var build = services.AddIdentityCore<User>((IdentityOptions x) =>
         {
             x.SignIn.RequireConfirmedAccount = false;
             x.User.RequireUniqueEmail = false;
@@ -63,9 +67,7 @@ public static class StartupExtensions
             x.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             x.User.RequireUniqueEmail = true;
             x.SignIn.RequireConfirmedAccount = false;
-        };
-
-        var build = services.AddIdentityCore<User>(idenityOptions);
+        });
 
         build.AddRoles<Role>().AddEntityFrameworkStores<RedditDbContext>().AddDefaultTokenProviders();
         build.AddSignInManager<SignInManager<User>>();

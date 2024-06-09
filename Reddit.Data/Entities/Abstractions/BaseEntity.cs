@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Reddit.Domain.Entities;
-public class BaseEntity
+namespace Reddit.Domain.Entities.Abstractions;
+public abstract class BaseEntity
 {
     public BaseEntity()
     {

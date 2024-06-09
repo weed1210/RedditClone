@@ -1,22 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Reddit.API.Controllers.Abstractions;
 using Reddit.Contract.User;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.API.Controllers;
-[Route("api/[controller]")]
-[ApiController]
-[Authorize(AuthenticationSchemes = "Bearer")]
-public class UsersController(IUserService userService) : ControllerBase
+public class UsersController(IUserService userService) : BaseApiController
 {
     private readonly IUserService _userService = userService;
 
     [AllowAnonymous]
     [HttpPost("Login")]
-    public async Task<ActionResult> Login([FromBody] UserLoginModel model)
+    public async Task<ActionResult> Login([FromBody] UserLoginRequest model)
     {
-        var result = await _userService.Login(model);
-        if (result.Succeed) return Ok(result.Data);
-        return BadRequest(result.ErrorMessage);
+        var result = await _userService.LoginAsync(model);
+        return Ok(result);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Reddit.DataAccess.Abstractions.Interfaces;
+using Reddit.DataAccess.Repositories.Abstractions;
 
 namespace Reddit.DataAccess.UnitOfWork;
 public interface IUnitOfWork
@@ -9,6 +10,7 @@ public interface IUnitOfWork
     IUserRepository Users { get; }
     IUserRoleRepository UserRoles { get; }
     IRoleRepository Roles { get; }
+    ITaskRepository Tasks { get; }
 
     Task SaveAsync();
     Task StartTransactionAsync();

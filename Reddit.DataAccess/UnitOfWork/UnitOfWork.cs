@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Reddit.DataAccess.Abstractions;
 using Reddit.DataAccess.Abstractions.Interfaces;
+using Reddit.DataAccess.Repositories;
+using Reddit.DataAccess.Repositories.Abstractions;
 using Reddit.Domain.Database;
 
 namespace Reddit.DataAccess.UnitOfWork;
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(RedditDbContext dbContext) : IUnitOfWork
 {
-    private readonly RedditDbContext _dbContext;
+    private readonly RedditDbContext _dbContext = dbContext;
     private IDbContextTransaction? _transaction;
 
     private IMemberRepository? _member;
@@ -15,11 +17,7 @@ public class UnitOfWork : IUnitOfWork
     private IStaffRepository? _staff;
     private IUserRepository? _user;
     private IUserRoleRepository? _userRole;
-
-    public UnitOfWork(RedditDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private ITaskRepository? _task;
 
     public async Task SaveAsync()
     {
@@ -96,6 +94,14 @@ public class UnitOfWork : IUnitOfWork
         get
         {
             return _userRole ??= new UserRoleRepository(_dbContext);
+        }
+    }
+
+    public ITaskRepository Tasks
+    {
+        get
+        {
+            return _task ??= new TaskRepository(_dbContext);
         }
     }
 }

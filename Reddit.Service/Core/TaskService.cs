@@ -17,13 +17,15 @@ public class TaskService(
     private readonly IUnitOfWork _repo = repo;
     private readonly IMapper _mapper = mapper;
 
-    public PagingResponse<TaskResponse> Get(PagingParam<BaseSortCriteria> pagingParam)
+    public List<TaskResponse> Get(PagingParam<BaseSortCriteria> pagingParam)
     {
         var posts = _repo.Tasks.Get();
-        return new PagingResponse<TaskResponse>(pagingParam.PageIndex, pagingParam.PageSize, posts.Count())
-        {
-            Data = _mapper.Map<List<TaskResponse>>(posts.Paginate(pagingParam))
-        };
+        pagingParam.PageSize = int.MaxValue;
+        //return new PagingResponse<TaskResponse>(pagingParam.PageIndex, pagingParam.PageSize, posts.Count())
+        //{
+        //    Data = _mapper.Map<List<TaskResponse>>(posts.Paginate(pagingParam))
+        //};
+        return _mapper.Map<List<TaskResponse>>(posts.Paginate(pagingParam));
     }
 
     public async Task<TaskResponse> GetOneAsync(int taskId) => _mapper.Map<TaskResponse>(await GetTaskAsync(taskId));

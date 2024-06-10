@@ -2,14 +2,9 @@
 
 public static class PagingHelper
 {
-    public static IQueryable<TObject> GetWithPaging<TObject>(this IQueryable<TObject> source, int page, int pageSize, int safePageSizeLimit = PagingConstants.MaxPageSize)
+    public static IQueryable<TObject> GetWithPaging<TObject>(this IQueryable<TObject> source, int page, int pageSize)
         where TObject : class
     {
-        if (pageSize > safePageSizeLimit)
-        {
-            throw new Exception("Input page size is over safe limitation.");
-        }
-
         if (source == null)
         {
             return Enumerable.Empty<TObject>().AsQueryable();

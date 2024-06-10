@@ -7,7 +7,6 @@ using Reddit.Domain.Enums.Paging;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.API.Controllers;
-[AllowAnonymous]
 public class TasksController(ITaskService taskService) : BaseApiController
 {
 

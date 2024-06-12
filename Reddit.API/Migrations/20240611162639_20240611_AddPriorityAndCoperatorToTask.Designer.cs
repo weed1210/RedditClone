@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Reddit.Domain.Database;
@@ -11,9 +12,11 @@ using Reddit.Domain.Database;
 namespace Reddit.API.Migrations
 {
     [DbContext(typeof(RedditDbContext))]
-    partial class RedditDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240611162639_20240611_AddPriorityAndCoperatorToTask")]
+    partial class _20240611_AddPriorityAndCoperatorToTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

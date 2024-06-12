@@ -6,4 +6,6 @@ public class Member : User
     public virtual ICollection<Post>? Posts { get; set; }
 
     public virtual ICollection<Task>? Tasks { get; set; }
+
+    public virtual ICollection<Task>? CoperatingTasks { get; set; }
 }

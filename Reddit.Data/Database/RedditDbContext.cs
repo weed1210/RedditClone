@@ -5,6 +5,7 @@ using Reddit.Domain.Entities;
 using Reddit.Domain.Enums;
 using Reddit.Domain.Extensions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Task = Reddit.Domain.Entities.Task;
 
 namespace Reddit.Domain.Database;
@@ -26,6 +27,16 @@ public class RedditDbContext(DbContextOptions options) : IdentityDbContext<User,
         builder.Entity<Member>()
             .HasDiscriminator(x => x.Type)
             .HasValue(UserType.Member);
+
+        builder.Entity<Member>()
+           .HasMany(x => x.Tasks)
+           .WithOne(t => t.Member)
+           .HasForeignKey(m => m.MemberId).OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<Member>()
+           .HasMany(x => x.CoperatingTasks)
+           .WithOne(t => t.Coperator)
+           .HasForeignKey(m => m.CoperatorId).OnDelete(DeleteBehavior.SetNull);
 
         builder.Entity<Staff>()
             .HasDiscriminator(x => x.Type)

@@ -8,4 +8,5 @@ public class TaskUpdateRequest
     public string? Status { get; set; }
 
     public Guid MemberId { get; set; }
+    public Guid? CoperatorId { get; set; }
 }

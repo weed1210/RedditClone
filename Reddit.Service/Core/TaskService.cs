@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Reddit.Contract.Common.Paging;
 using Reddit.Contract.Task;
 using Reddit.DataAccess.Common.Paging;
 using Reddit.DataAccess.Common.Utilities;
@@ -17,9 +16,10 @@ public class TaskService(
     private readonly IUnitOfWork _repo = repo;
     private readonly IMapper _mapper = mapper;
 
-    public List<TaskResponse> Get(PagingParam<BaseSortCriteria> pagingParam)
+    public List<TaskResponse> Get(PagingParam<BaseSortCriteria> pagingParam, TaskGetRequest request)
     {
-        var posts = _repo.Tasks.Get();
+        var posts = _repo.Tasks.Get()
+            .Where(x => x.MemberId == request.MemberId);
         pagingParam.PageSize = int.MaxValue;
         //return new PagingResponse<TaskResponse>(pagingParam.PageIndex, pagingParam.PageSize, posts.Count())
         //{

@@ -16,10 +16,13 @@ public class TaskService(
     private readonly IUnitOfWork _repo = repo;
     private readonly IMapper _mapper = mapper;
 
-    public List<TaskResponse> Get(PagingParam<BaseSortCriteria> pagingParam, TaskGetRequest request)
+    public List<TaskResponse> Get(PagingParam<TaskSortCriteria> pagingParam, TaskGetRequest request)
     {
+        var searchValue = request.SearchValue ?? "";
         var posts = _repo.Tasks.Get()
-            .Where(x => x.MemberId == request.MemberId);
+            .Where(x => x.MemberId == request.MemberId
+                && ((x.Description ?? "").Contains(searchValue) || (x.Title ?? "").Contains(searchValue))
+                && (request.SelectedStatus == null || (x.Status ?? "").Contains(request.SelectedStatus)));
         pagingParam.PageSize = int.MaxValue;
         //return new PagingResponse<TaskResponse>(pagingParam.PageIndex, pagingParam.PageSize, posts.Count())
         //{

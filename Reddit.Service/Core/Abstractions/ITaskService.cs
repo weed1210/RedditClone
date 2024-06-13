@@ -6,7 +6,7 @@ using Reddit.Domain.Enums.Paging;
 namespace Reddit.Service.Core.Abstractions;
 public interface ITaskService
 {
-    List<TaskResponse> Get(PagingParam<BaseSortCriteria> pagingParam, TaskGetRequest request);
+    List<TaskResponse> Get(PagingParam<TaskSortCriteria> pagingParam, TaskGetRequest request);
     Task<TaskResponse> GetOneAsync(int taskId);
     Task<TaskResponse> CreateAsync(TaskCreateRequest request);
     Task<TaskResponse> UpdateAsync(TaskUpdateRequest request);

@@ -11,9 +11,16 @@ public class MembersController(IMemberService memberService) : BaseApiController
 
     [HttpPost("Register")]
     [AllowAnonymous]
-    public async Task<ActionResult> Register([FromBody] MemberRegisterRequest model)
+    public async Task<ActionResult> RegisterAsync([FromBody] MemberRegisterRequest model)
     {
         var result = await _memberService.RegisterAsync(model);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public ActionResult Get()
+    {
+        var result = _memberService.Get();
         return Ok(result);
     }
 }

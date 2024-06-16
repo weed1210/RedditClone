@@ -2,9 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Reddit.Contract.Member;
+using Reddit.Contract.Task;
 using Reddit.Data.Enums;
+using Reddit.DataAccess.Common.Paging;
+using Reddit.DataAccess.Common.Utilities;
 using Reddit.DataAccess.UnitOfWork;
 using Reddit.Domain.Entities;
+using Reddit.Domain.Enums.Paging;
 using Reddit.Service.Core.Abstractions;
 
 namespace Reddit.Service.Core;
@@ -42,5 +46,12 @@ public class MemberService(
         }
 
         return _mapper.Map<MemberResponse>(member);
+    }
+
+    public List<MemberResponse> Get()
+    {
+        var members = _repo.Members.Get();
+
+        return _mapper.Map<List<MemberResponse>>(members);
     }
 }

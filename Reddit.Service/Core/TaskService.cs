@@ -19,15 +19,11 @@ public class TaskService(
     public List<TaskResponse> Get(PagingParam<TaskSortCriteria> pagingParam, TaskGetRequest request)
     {
         var searchValue = request.SearchValue ?? "";
-        var posts = _repo.Tasks.Get()
-            .Where(x => x.MemberId == request.MemberId
+        var posts = _repo.Tasks.Get().Include(x => x.Coperator)
+            .Where(x => (x.MemberId == request.MemberId || x.CoperatorId == request.MemberId)
                 && ((x.Description ?? "").Contains(searchValue) || (x.Title ?? "").Contains(searchValue))
                 && (request.SelectedStatus == null || (x.Status ?? "").Contains(request.SelectedStatus)));
         pagingParam.PageSize = int.MaxValue;
-        //return new PagingResponse<TaskResponse>(pagingParam.PageIndex, pagingParam.PageSize, posts.Count())
-        //{
-        //    Data = _mapper.Map<List<TaskResponse>>(posts.Paginate(pagingParam))
-        //};
         return _mapper.Map<List<TaskResponse>>(posts.Paginate(pagingParam));
     }
 
